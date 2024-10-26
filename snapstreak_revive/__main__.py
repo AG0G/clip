@@ -12,9 +12,9 @@ import chromedriver_autoinstall
 # chromedriver path
 PATH = "./chromedriver"
 # Your friend's Snapchat username
-friendsUsername = ""
+friendsUsername = "test"
 # Numbers only, no letters or symbols
-streakLength = ""
+streakLength = "5"
 
 # ---------------------------------------------------------------
 
