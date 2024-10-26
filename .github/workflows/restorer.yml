@@ -1,0 +1,24 @@
+name: Update Data
+
+on:
+  workflow_dispatch:  # Allows manual triggering
+  repository_dispatch:
+    types: [updateData]  # Custom event type
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Process Input Data
+        id: process_data
+        run: |
+          echo "Data received: ${{ github.event.client_payload.data }}"
+          echo "${{ github.event.client_payload.data }}" > restore.txt
+          git config --local user.email "147729717+AG0G@users.noreply.github.com"
+          git config --local user.name "AG0G"
+          git add restore.txt
+          git commit -m "Update restore.txt with new data"
+          git push
