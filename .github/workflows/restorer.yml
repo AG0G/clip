@@ -21,4 +21,22 @@ jobs:
           git config --local user.name "AG0G"
           git add restore.txt
           git commit -m "Update restore.txt with new data"
+      - name: Setup Py3
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Gather repo
+        run: |
+          git clone "https://github.com/${GITHUB_REPOSITORY}" udemy || exit 1
+      - name: Install deps
+        run: |
+          cd udemy
+          pip3 install wheel
+          pip3 install -r requirements.txt
+      - name: Build wheels
+        timeout-minutes: 330
+        continue-on-error: true
+        run: |
+          cd udemy
+          python3 app.py
           git push
