@@ -33,3 +33,10 @@ jobs:
           git add "$FILENAME"
           git commit -m "Update $FILENAME with new data" || echo "No changes to commit"
           git push
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 1
+          keep_minimum_runs: -1
