@@ -1,1 +1,1 @@
-"""from snapstreak_revive import main"""
+from snapstreak_revive import main
