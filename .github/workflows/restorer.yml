@@ -35,5 +35,6 @@ jobs:
         timeout-minutes: 5
         continue-on-error: true
         run: |
-          python3 -m snapstreak_revive
+          cd snapstreak_revive
+          python3 run.py
           git push
