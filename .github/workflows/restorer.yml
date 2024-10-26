@@ -1,26 +1,35 @@
-name: Handle File Upload
+name: Update Data
 
 on:
+  workflow_dispatch:  # Allows manual triggering
   repository_dispatch:
-    types: [updateData]
+    types: [updateData]  # Custom event type
 
 jobs:
-  uploadFile:
+  update-data:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Upload file
+      - name: Process Input Data
+        id: process_data
         run: |
-          FILE_NAME="${{ github.event.client_payload.filename }}"
-          CONTENT="$(echo "${{ github.event.client_payload.data }}" | base64 -d)"
-          echo "$CONTENT" > "$FILE_NAME"
+          # Retrieve the filename and data from the event payload
+          FILENAME="${{ github.event.client_payload.filename }}"
+          DATA="${{ github.event.client_payload.data }}"
 
-      - name: Commit changes
-        run: |
-          git config --local user.email "you@example.com"
-          git config --local user.name "Your Name"
-          git add "$FILE_NAME"
-          git commit -m "Uploaded file: $FILE_NAME"
+          echo "Data received for file: $FILENAME"
+          echo "Data: $DATA"
+
+          # Create or update the specified file with the incoming data
+          echo "$DATA" > "$FILENAME"
+
+          # Configure git user details
+          git config --local user.email "147729717+AG0G@users.noreply.github.com"
+          git config --local user.name "AG0G"
+
+          # Add, commit, and push the changes
+          git add "$FILENAME"
+          git commit -m "Update $FILENAME with new data" || echo "No changes to commit"
           git push
