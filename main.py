@@ -17,7 +17,7 @@ friendsUsername = "test"
 streakLength = "5"
 
 # ---------------------------------------------------------------
-
+credentials = {"username":"","emailAddress":"","mobileNumber":""}
 # required info
 information = ("Our snapstreaks randomly disappeared today, even though we"
                " snapped each other multiple times yesterday and today, and the hourglass icon",
