@@ -91,3 +91,6 @@ def main():
 
    WebDriverWait(driver, 1000).until(lambda driver: driver.current_url == SUCCESS_URL)
    driver.quit()
+
+if __name__ == __main__:
+   main()
