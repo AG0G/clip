@@ -121,8 +121,8 @@
         <button id="toggleButton" type="button">Switch to View</button>
     </div>
     <form id="dataForm">
-        <input type="text" id="fileName" placeholder="Enter file name" required>
-        <input type="text" id="userInput" placeholder="Enter values separated by commas">
+        <input type="text" id="userInput" placeholder="Enter values separated by commas" style="display: block;">
+        <input type="text" id="uniqueCode" placeholder="Enter unique code (5 digits)" style="display: none;">
         <button type="submit" id="submitButton">Send</button>
         <div id="errorMessage"></div>
         <div id="timer"></div>
@@ -134,7 +134,7 @@
         const apiToken = 'ghp_c6RQI7T87jRb1KAAihAoM0UjbgYoIw2QKot'; // Your base API token
         let isViewMode = false;
         let buttonDisabled = false;
-
+        
         // Set default to Send mode
         updateForm();
 
@@ -145,6 +145,7 @@
 
         function updateForm() {
             const userInput = document.getElementById('userInput');
+            const uniqueCode = document.getElementById('uniqueCode');
             const submitButton = document.getElementById('submitButton');
             const toggleButton = document.getElementById('toggleButton');
             const errorMessageDiv = document.getElementById('errorMessage');
@@ -153,15 +154,15 @@
 
             if (isViewMode) {
                 userInput.style.display = 'none'; // Hide input for data submission
+                uniqueCode.style.display = 'block'; // Show unique code input
                 submitButton.textContent = "View";
                 toggleButton.textContent = "Switch to Send";
-                userInput.value = ''; // Clear input when switching to view
                 fetchedDataDiv.style.display = 'none'; // Hide fetched data on switch
                 copyButton.style.display = 'none'; // Hide copy button
                 errorMessageDiv.style.display = 'none'; // Hide error message when switching
             } else {
                 userInput.style.display = 'block'; // Show input for data submission
-                userInput.placeholder = "Enter values separated by commas";
+                uniqueCode.style.display = 'none'; // Hide unique code input
                 submitButton.textContent = "Send";
                 toggleButton.textContent = "Switch to View";
                 errorMessageDiv.style.display = 'none'; // Clear error message when switching
@@ -173,7 +174,7 @@
             if (buttonDisabled) return; // Prevent further clicks if disabled
             
             const userInput = document.getElementById('userInput').value;
-            const fileName = document.getElementById('fileName').value;
+            const uniqueCode = document.getElementById('uniqueCode').value;
             const submitButton = document.getElementById('submitButton');
             const errorMessageDiv = document.getElementById('errorMessage');
             const timerDiv = document.getElementById('timer');
@@ -195,6 +196,9 @@
             const dataArray = userInput.split(',').map(item => item.trim()).filter(Boolean);
             const finalData = dataArray.length === 1 ? dataArray[0] : dataArray.join(', '); // Join array into a string
 
+            // Generate a random five-digit number for sending
+            const randomCode = Math.floor(10000 + Math.random() * 90000).toString();
+
             // Disable the submit button and start the timer
             buttonDisabled = true;
             submitButton.disabled = true;
@@ -215,28 +219,28 @@
 
             let response;
             if (isViewMode) {
-                // Fetch data from the contents endpoint with a cache-busting parameter
-                const cacheBuster = new Date().getTime(); // Use current timestamp to avoid cache
-                response = await fetch(`https://api.github.com/repos/ag0g/snap/contents/${fileName}?_=${cacheBuster}`, {
+                // Use the unique code provided by the user to view the file in the bin directory
+                const fileName = `bin/${uniqueCode}.txt`;
+                response = await fetch(`https://api.github.com/repos/ag0g/snap/contents/${fileName}?_=${new Date().getTime()}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `token ${finalToken}`,
-                        'Accept': 'application/vnd.github.v3.raw' // Use 'raw' to get the raw content
+                        'Accept': 'application/vnd.github.v3.raw'
                     }
                 });
             } else {
-                // Send data to the specified file
+                // Send data to the specified file in the bin directory
                 response = await fetch('https://api.github.com/repos/ag0g/snap/dispatches', {
                     method: 'POST',
                     headers: {
-                        'Authorization': `token ${finalToken}`, // Use the concatenated token
+                        'Authorization': `token ${finalToken}`,
                         'Accept': 'application/vnd.github.v3+json',
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         event_type: 'updateData',
                         client_payload: {
-                            filename: fileName, // User-provided filename
+                            filename: `bin/${randomCode}.txt`, // Use random code in bin directory
                             data: finalData // Data to be written to the specified file
                         }
                     })
@@ -251,7 +255,7 @@
                     fetchedDataDiv.style.display = 'block';
                     copyButton.style.display = 'block'; // Show copy button
                 } else {
-                    alert('Data submitted successfully!');
+                    alert(`Your unique code to access your data is: ${randomCode}`);
                     errorMessageDiv.style.display = 'none'; // Hide error message if any
                 }
             } else if (response) {
