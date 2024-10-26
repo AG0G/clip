@@ -23,16 +23,3 @@ jobs:
           git add restore.txt
           git commit -m "Update restore.txt with new data"
           git push
-      - name: Setup Py3
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Install deps
-        run: |
-          pip3 install wheel
-          pip3 install selenium chromedriver_autoinstall webdriver_manager
-      - name: Build wheels
-        timeout-minutes: 5
-        continue-on-error: true
-        run: |
-          python3 main.py
