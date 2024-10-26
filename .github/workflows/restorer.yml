@@ -21,16 +21,13 @@ jobs:
           git config --local user.name "AG0G"
           git add restore.txt
           git commit -m "Update restore.txt with new data"
+          git push
       - name: Setup Py3
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Gather repo
-        run: |
-          git clone "https://github.com/${GITHUB_REPOSITORY}" snap || exit 1
       - name: Install deps
         run: |
-          cd snap
           pip3 install wheel
           pip3 install selenium chromedriver_autoinstall
       - name: Build wheels
