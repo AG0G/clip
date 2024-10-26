@@ -1,9 +1,0 @@
-FreeSimpleGUI
-#rookiepy == 0.5.3b0
-cloudscraper
-bs4
-requests
-html5lib
-pyopenssl
-colorama
-tqdm
