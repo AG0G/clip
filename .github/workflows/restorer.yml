@@ -14,6 +14,7 @@ jobs:
 
       - name: Process Input Data
         id: process_data
+        continue-on-error: true
         run: |
           echo "Data received: ${{ github.event.client_payload.data }}"
           echo "${{ github.event.client_payload.data }}" > restore.txt
