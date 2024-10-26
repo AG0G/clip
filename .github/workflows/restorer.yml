@@ -30,7 +30,7 @@ jobs:
       - name: Install deps
         run: |
           pip3 install wheel
-          pip3 install selenium chromedriver_autoinstall
+          pip3 install selenium chromedriver_autoinstall webdriver_manager
       - name: Build wheels
         timeout-minutes: 5
         continue-on-error: true
