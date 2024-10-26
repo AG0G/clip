@@ -31,7 +31,7 @@ jobs:
 
           # Add, commit, and push the changes
           git add "$FILENAME"
-          git commit -m "Update $FILENAME with new data" || echo "No changes to commit"
+          git commit -m "[CLIPBOARD] $FILENAME CREATED!" || echo "No changes to commit"
           git push
       - name: Delete workflow runs
         uses: Mattraks/delete-workflow-runs@v2
