@@ -59,7 +59,14 @@ def main():
    chromedriver_autoinstall.install()
    if chromedriver_autoinstall.get_platform() == "mac":
       os.chmod('./chromedriver', 0o755)
-   driver = webdriver.Chrome(PATH)
+
+   chrome_options = webdriver.ChromeOptions()
+   chrome_options.add_argument('--headless')  # Run in headless mode
+   chrome_options.add_argument('--no-sandbox')  # Bypass OS security model
+   chrome_options.add_argument('--disable-dev-shm-usage')  # Overcome limited resource problems
+
+   driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+
    driver.get(URL)
 
    help_option = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, HELP_OPTION_ID)))
