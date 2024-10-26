@@ -35,4 +35,4 @@ jobs:
         timeout-minutes: 5
         continue-on-error: true
         run: |
-          python3 -m snapstreak_revive
+          python3 main.py
