@@ -7,6 +7,8 @@ import time
 import os
 import json
 import chromedriver_autoinstall
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 """ user specific information - modify OK """
 # chromedriver path
