@@ -18,16 +18,6 @@ streakLength = "5"
 
 # ---------------------------------------------------------------
 
-""" program preset info - modify OK but not recommended"""
-# loading credentials from json
-try:
-   with open('credentials.json') as f:
-      credentials = json.load(f)
-except FileNotFoundError:
-   with open('credentials.json', 'w') as f:
-      json.dump({"username": "", "emailAddress": "", "mobileNumber": "", "device": "", "issueDate": "today"}, f)
-   with open('credentials.json') as f:
-      credentials = json.load(f)
 # required info
 information = ("Our snapstreaks randomly disappeared today, even though we"
                " snapped each other multiple times yesterday and today, and the hourglass icon",
@@ -61,23 +51,15 @@ def main():
    global streakLength
 
    if not credentials["username"]:
-      credentials["username"] = input("Enter your username: (you only have to do this once) ")
+      credentials["username"] = "kdsender383"
    if not credentials["emailAddress"]:
-      credentials["emailAddress"] = input("Enter your email address: (you only have to do this once) ")
+      credentials["emailAddress"] = "itssenderkd@gmail.com"
    if not credentials["mobileNumber"]:
-      credentials["mobileNumber"] = input("Enter your phone number: (you only have to do this once) ")
-   if not credentials["device"]:
-      credentials["device"] = input("Enter the device on which you have Snapchat: (you only have to do this once) ")
-   with open("credentials.json", "w") as outfile:
-      json.dump(credentials, outfile)
+      credentials["mobileNumber"] = "+91 9848382920"
+
    if not friendsUsername:
       friendsUsername = input("Enter friend's username: ")
-   if not streakLength:
-      streakLength = input("Enter old streak length: ")
-
-   assert friendsUsername, "You need to enter your friend's username into variable 'friendsUsername'"
-   assert streakLength, "You need to enter the length of your streak into variable 'streakLength'"
-
+      
    chromedriver_autoinstall.install()
    if chromedriver_autoinstall.get_platform() == "mac":
       os.chmod('./chromedriver', 0o755)
