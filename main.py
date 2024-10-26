@@ -50,16 +50,12 @@ def main():
    global friendsUsername
    global streakLength
 
-   if not credentials["username"]:
-      credentials["username"] = "kdsender383"
-   if not credentials["emailAddress"]:
-      credentials["emailAddress"] = "itssenderkd@gmail.com"
-   if not credentials["mobileNumber"]:
-      credentials["mobileNumber"] = "+91 9848382920"
+   
+   credentials["username"] = "kdsender383"
+   credentials["emailAddress"] = "itssenderkd@gmail.com"
+   credentials["mobileNumber"] = "+91 9848382920"
 
-   if not friendsUsername:
-      friendsUsername = input("Enter friend's username: ")
-      
+
    chromedriver_autoinstall.install()
    if chromedriver_autoinstall.get_platform() == "mac":
       os.chmod('./chromedriver', 0o755)
