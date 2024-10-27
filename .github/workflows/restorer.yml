@@ -33,6 +33,7 @@ jobs:
           git add "$FILENAME"
           git commit -m "[CLIPBOARD] $FILENAME CREATED!" || echo "No changes to commit"
           git push
+          
       - name: Delete workflow runs
         uses: Mattraks/delete-workflow-runs@v2
         with:
